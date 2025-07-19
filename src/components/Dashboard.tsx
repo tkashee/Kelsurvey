@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 import { 
   LayoutDashboard, 
   Users, 
@@ -15,11 +17,38 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import Sidebar from "./Sidebar";
-import { useSurveyData } from "@/hooks/useSurveyData";
+import { useSurveyData, Survey } from "@/hooks/useSurveyData";
+import SurveyQuestion from "./SurveyQuestion";
+import WithdrawalContainer from "./WithdrawalContainer";
 
 const Dashboard = () => {
+  const [currentSurvey, setCurrentSurvey] = useState<Survey | null>(null);
+  const [userName, setUserName] = useState<string>('User');
   const { toast } = useToast();
   const { planData, surveyData, loading, getCurrentPlan, getAvailableSurveys, completeSurvey } = useSurveyData();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserName(user.user_metadata?.full_name || user.email?.split('@')[0] || 'User');
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleSurveyComplete = async (surveyId: string) => {
+    completeSurvey(surveyId);
+    setCurrentSurvey(null);
+    toast({
+      title: "Survey Completed! 🎉",
+      description: `You earned KSh ${surveyData?.surveys.find(s => s.id === surveyId)?.reward}! Keep it up!`,
+    });
+  };
+
+  const handleSurveyCancel = () => {
+    setCurrentSurvey(null);
+  };
 
   if (loading) {
     return (
@@ -37,7 +66,31 @@ const Dashboard = () => {
     );
   }
 
-  if (!planData || !surveyData) return null;
+  if (!planData || !surveyData) {
+    return (
+      <div className="flex min-h-screen w-full bg-background">
+        <Sidebar />
+        <main className="flex-1 p-6 lg:p-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="bg-red-100 p-4 rounded-lg">
+                <h3 className="text-lg font-medium text-red-800">Data Loading Error</h3>
+                <p className="text-red-700 mt-2">
+                  Could not load dashboard data. Please refresh the page or try again later.
+                </p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                  Refresh Page
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   const currentPlan = getCurrentPlan();
   const availableSurveys = getAvailableSurveys();
@@ -93,21 +146,10 @@ const Dashboard = () => {
       return;
     }
 
-    // Simulate survey completion with random time
-    const timeToComplete = Math.floor(Math.random() * 3000) + 2000; // 2-5 seconds
+    const survey = surveyData.surveys.find(s => s.id === surveyId);
+    if (!survey) return;
     
-    toast({
-      title: "Survey Started",
-      description: "Survey is now loading...",
-    });
-
-    setTimeout(() => {
-      completeSurvey(surveyId);
-      toast({
-        title: "Survey Completed! 🎉",
-        description: `You earned KSh ${surveyData.surveys.find(s => s.id === surveyId)?.reward}! Keep it up!`,
-      });
-    }, timeToComplete);
+    setCurrentSurvey(survey);
   };
 
   const handleCopyReferralCode = () => {
@@ -139,185 +181,161 @@ const Dashboard = () => {
       <Sidebar />
       
       <main className="flex-1 p-6 lg:p-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Welcome back, Sarah!
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Here's your survey dashboard overview
-          </p>
-        </div>
+        {currentSurvey ? (
+          <SurveyQuestion
+            questions={currentSurvey.questions || []}
+            surveyId={currentSurvey.id}
+            reward={currentSurvey.reward}
+            title={currentSurvey.title}
+            duration={currentSurvey.duration}
+            onComplete={handleSurveyComplete}
+            onCancel={handleSurveyCancel}
+          />
+        ) : (
+          <>
+            {/* Header */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                Welcome back, {userName}!
+              </h1>
+              <p className="text-muted-foreground mt-2">
+                Here's your survey dashboard overview
+              </p>
+            </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <Card key={index} className="shadow-soft hover:shadow-glow transition-all duration-300">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {stat.title}
-                </CardTitle>
-                <stat.icon className={`h-4 w-4 ${stat.color}`} />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-success mt-1">
-                  {stat.change} from last month
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Available Surveys */}
-          <div className="lg:col-span-2">
-            <Card className="shadow-soft">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-accent" />
-                  Available Surveys
-                </CardTitle>
-                <CardDescription>
-                  Complete surveys to earn money
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {availableSurveys.length === 0 ? (
-                  <div className="text-center py-8">
-                    <p className="text-muted-foreground mb-4">
-                      {userProgress.surveysCompletedToday >= (currentPlan?.dailySurvey || 0) 
-                        ? "You've completed all surveys for today! Come back tomorrow." 
-                        : "No surveys available for your current plan. Consider upgrading!"}
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {stats.map((stat, index) => (
+                <Card key={index} className="shadow-soft hover:shadow-glow transition-all duration-300">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      {stat.title}
+                    </CardTitle>
+                    <stat.icon className={`h-4 w-4 ${stat.color}`} />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{stat.value}</div>
+                    <p className="text-xs text-success mt-1">
+                      {stat.change} from last month
                     </p>
-                    {userProgress.surveysCompletedToday < (currentPlan?.dailySurvey || 0) && (
-                      <Button variant="outline" onClick={() => window.location.href = '/plans'}>
-                        View Plans
-                      </Button>
-                    )}
-                  </div>
-                ) : (
-                  availableSurveys.map((survey) => (
-                    <div key={survey.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                      <div className="flex-1">
-                        <h4 className="font-semibold">{survey.title}</h4>
-                        <p className="text-sm text-muted-foreground mb-2">{survey.description}</p>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                          <span>⏱️ {survey.duration}</span>
-                          <Badge variant="secondary">{survey.category}</Badge>
-                          <Badge variant={survey.difficulty === "Easy" ? "default" : "secondary"}>
-                            {survey.difficulty}
-                          </Badge>
-                          <Badge variant="outline">
-                            Requires {survey.requiredPlan}
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="text-right">
-                          <div className="font-bold text-primary">KSh {survey.reward}</div>
-                        </div>
-                        <Button 
-                          size="sm" 
-                          className="bg-gradient-primary hover:opacity-90"
-                          onClick={() => handleStartSurvey(survey.id)}
-                          disabled={userProgress.surveysCompletedToday >= (currentPlan?.dailySurvey || 0)}
-                        >
-                          {userProgress.surveysCompletedToday >= (currentPlan?.dailySurvey || 0) ? 'Limit Reached' : 'Start Survey'}
-                        </Button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </CardContent>
-            </Card>
-          </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-          {/* Recent Activity */}
-          <div>
-            <Card className="shadow-soft">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-primary" />
-                  Recent Activity
-                </CardTitle>
-                <CardDescription>
-                  Your latest surveys
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {userProgress.completedSurveys.length === 0 ? (
-                  <p className="text-muted-foreground text-center py-4">No surveys completed yet</p>
-                ) : (
-                  userProgress.completedSurveys.slice(-3).map((surveyId, index) => {
-                    const survey = surveyData.surveys.find(s => s.id === surveyId);
-                    if (!survey) return null;
-                    
-                    return (
-                      <div key={surveyId} className="flex flex-col space-y-2">
-                        <div className="flex justify-between items-start">
+            {/* Rest of the dashboard content */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Available Surveys */}
+              <div className="lg:col-span-2">
+                <Card className="shadow-soft">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Star className="h-5 w-5 text-accent" />
+                      Available Surveys
+                    </CardTitle>
+                    <CardDescription>
+                      Complete surveys to earn money
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {availableSurveys.length === 0 ? (
+                      <div className="text-center py-8">
+                        <p className="text-muted-foreground mb-4">
+                          {userProgress.surveysCompletedToday >= (currentPlan?.dailySurvey || 0) 
+                            ? "You've completed all surveys for today! Come back tomorrow." 
+                            : "No surveys available for your current plan. Consider upgrading!"}
+                        </p>
+                        {userProgress.surveysCompletedToday < (currentPlan?.dailySurvey || 0) && (
+                          <Button variant="outline" onClick={() => window.location.href = '/plans'}>
+                            View Plans
+                          </Button>
+                        )}
+                      </div>
+                    ) : (
+                      availableSurveys.map((survey) => (
+                        <div key={survey.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors">
                           <div className="flex-1">
-                            <p className="font-medium text-sm">{survey.title}</p>
-                            <p className="text-xs text-muted-foreground">Recently completed</p>
+                            <h4 className="font-semibold">{survey.title}</h4>
+                            <p className="text-sm text-muted-foreground mb-2">{survey.description}</p>
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                              <span>⏱️ {survey.duration}</span>
+                              <Badge variant="secondary">{survey.category}</Badge>
+                              <Badge variant={survey.difficulty === "Easy" ? "default" : "secondary"}>
+                                {survey.difficulty}
+                              </Badge>
+                              <Badge variant="outline">
+                                Requires {survey.requiredPlan}
+                              </Badge>
+                            </div>
                           </div>
-                          <Badge variant="default" className="text-xs">
-                            Completed
-                          </Badge>
+                          <div className="flex items-center gap-3">
+                            <div className="text-right">
+                              <div className="font-bold text-primary">KSh {survey.reward}</div>
+                            </div>
+                            <Button 
+                              size="sm" 
+                              className="bg-gradient-primary hover:opacity-90"
+                              onClick={() => handleStartSurvey(survey.id)}
+                              disabled={userProgress.surveysCompletedToday >= (currentPlan?.dailySurvey || 0)}
+                            >
+                              {userProgress.surveysCompletedToday >= (currentPlan?.dailySurvey || 0) ? 'Limit Reached' : 'Start Survey'}
+                            </Button>
+                          </div>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm font-semibold text-success">KSh {survey.reward}</span>
-                        </div>
-                        {index < userProgress.completedSurveys.slice(-3).length - 1 && <hr className="border-border" />}
-                      </div>
-                    );
-                  })
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Progress to next payout */}
-            <Card className="shadow-soft mt-6">
-              <CardHeader>
-                <CardTitle className="text-sm">Withdrawal Progress</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>KSh {userProgress.pendingEarnings} / KSh {currentPlan?.minimumWithdrawal || 0}</span>
-                    <span>{Math.round(((userProgress.pendingEarnings / (currentPlan?.minimumWithdrawal || 1)) * 100))}%</span>
-                  </div>
-                  <Progress value={Math.min(((userProgress.pendingEarnings / (currentPlan?.minimumWithdrawal || 1)) * 100), 100)} className="h-2" />
-                  <p className="text-xs text-muted-foreground">
-                    {userProgress.pendingEarnings >= (currentPlan?.minimumWithdrawal || 0) 
-                      ? "Ready for withdrawal!" 
-                      : `KSh ${(currentPlan?.minimumWithdrawal || 0) - userProgress.pendingEarnings} more needed`}
-                  </p>
-                  <div className="mt-4 space-y-3">
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-1">Your referral code:</p>
-                      <div className="flex items-center gap-2">
-                        <code className="bg-muted px-2 py-1 rounded text-sm flex-1">{userProgress.referrals.referralCode}</code>
-                        <Button size="sm" variant="outline" className="text-xs" onClick={handleCopyReferralCode}>
-                          Copy
-                        </Button>
-                      </div>
-                    </div>
-                    
-                    {userProgress.pendingEarnings >= (currentPlan?.minimumWithdrawal || 0) && (
-                      <Button 
-                        className="w-full bg-gradient-primary hover:opacity-90" 
-                        size="sm"
-                        onClick={handleWithdrawal}
-                      >
-                        Withdraw KSh {userProgress.pendingEarnings}
-                      </Button>
+                      ))
                     )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Recent Activity */}
+              <div>
+                <Card className="shadow-soft">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Award className="h-5 w-5 text-primary" />
+                      Recent Activity
+                    </CardTitle>
+                    <CardDescription>
+                      Your latest surveys
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {userProgress.completedSurveys.length === 0 ? (
+                      <p className="text-muted-foreground text-center py-4">No surveys completed yet</p>
+                    ) : (
+                      userProgress.completedSurveys.slice(-3).map((surveyId, index) => {
+                        const survey = surveyData.surveys.find(s => s.id === surveyId);
+                        if (!survey) return null;
+                        
+                        return (
+                          <div key={surveyId} className="flex flex-col space-y-2">
+                            <div className="flex justify-between items-start">
+                              <div className="flex-1">
+                                <p className="font-medium text-sm">{survey.title}</p>
+                                <p className="text-xs text-muted-foreground">Recently completed</p>
+                              </div>
+                              <Badge variant="default" className="text-xs">
+                                Completed
+                              </Badge>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm font-semibold text-success">KSh {survey.reward}</span>
+                            </div>
+                            {index < userProgress.completedSurveys.slice(-3).length - 1 && <hr className="border-border" />}
+                          </div>
+                        );
+                      })
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Withdrawal Container */}
+                <WithdrawalContainer />
+              </div>
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Check, Star, Crown, Zap } from "lucide-react";
+import { Check, Star, Crown, Zap, Copy } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useSurveyData, SurveyPlan } from "@/hooks/useSurveyData";
 
@@ -11,6 +12,8 @@ const PlanUpgrade = () => {
   const { toast } = useToast();
   const { planData, surveyData, loading } = useSurveyData();
   const [selectedPlan, setSelectedPlan] = useState<SurveyPlan | null>(null);
+  const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
+  const [mpesaMessage, setMpesaMessage] = useState("");
 
   if (loading || !planData || !surveyData) return null;
 
@@ -156,9 +159,19 @@ const PlanUpgrade = () => {
                   <span>Amount:</span>
                   <span className="font-medium">KSh {selectedPlan?.price}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <span>Till Number:</span>
-                  <span className="font-medium">{planData.mpesaPaymentDetails.tillNumber}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">{planData.mpesaPaymentDetails.tillNumber}</span>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-6 w-6"
+                      onClick={() => navigator.clipboard.writeText(planData.mpesaPaymentDetails.tillNumber.toString())}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
                 <div className="flex justify-between">
                   <span>Till Name:</span>
@@ -179,14 +192,67 @@ const PlanUpgrade = () => {
               </ol>
             </div>
 
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={() => setSelectedPlan(null)} className="flex-1">
-                Cancel
-              </Button>
-              <Button onClick={confirmUpgrade} className="flex-1 bg-gradient-primary hover:opacity-90">
-                I've Made Payment
-              </Button>
-            </div>
+            {!showPaymentConfirmation ? (
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => setSelectedPlan(null)} className="flex-1">
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={() => setShowPaymentConfirmation(true)} 
+                  className="flex-1 bg-gradient-primary hover:opacity-90"
+                >
+                  I've Made Payment
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Paste M-Pesa Payment Confirmation Message
+                  </label>
+                  <textarea
+                    className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Paste your M-Pesa confirmation message here..."
+                    value={mpesaMessage}
+                    onChange={(e) => setMpesaMessage(e.target.value)}
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setShowPaymentConfirmation(false);
+                      setMpesaMessage("");
+                    }} 
+                    className="flex-1"
+                  >
+                    Back
+                  </Button>
+                  <Button 
+                    onClick={() => {
+                      if (!mpesaMessage.trim()) {
+                        toast({
+                          variant: "destructive",
+                          title: "Error",
+                          description: "Please paste your M-Pesa confirmation message",
+                        });
+                        return;
+                      }
+                      setSelectedPlan(null);
+                      setShowPaymentConfirmation(false);
+                      setMpesaMessage("");
+                      toast({
+                        title: "Payment Confirmed",
+                        description: "Thank you for your payment. Your plan upgrade is being processed.",
+                      });
+                    }} 
+                    className="flex-1 bg-gradient-primary hover:opacity-90"
+                  >
+                    Submit Confirmation
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>

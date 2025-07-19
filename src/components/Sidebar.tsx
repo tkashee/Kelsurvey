@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   LayoutDashboard, 
   FileText, 
@@ -13,9 +13,28 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/lib/supabaseClient";
+import { useSurveyData } from "@/hooks/useSurveyData";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [userName, setUserName] = useState<string>('User');
+  const [userEmail, setUserEmail] = useState<string>('');
+  const { surveyData } = useSurveyData();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserName(user.user_metadata?.full_name || user.email?.split('@')[0] || 'User');
+        setUserEmail(user.email || '');
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const currentPlan = surveyData?.userProgress?.currentPlan || 'Starter';
+  const pendingEarnings = surveyData?.userProgress?.pendingEarnings || 0;
   
   const menuItems = [
     {
@@ -92,17 +111,17 @@ const Sidebar = () => {
         <div className="p-4 border-b border-border bg-gradient-secondary">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
-              SJ
+              {userName.substring(0, 2).toUpperCase()}
             </div>
             <div className="flex-1">
-              <p className="font-semibold text-sm">Sarah Johnson</p>
-              <p className="text-xs text-muted-foreground">Premium Member</p>
+              <p className="font-semibold text-sm">{userName}</p>
+              <p className="text-xs text-muted-foreground">{currentPlan} Plan</p>
             </div>
           </div>
           <div className="mt-3 p-2 bg-card/50 rounded-lg">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-muted-foreground">This Month</span>
-              <span className="font-semibold text-primary">KSh 2,450</span>
+              <span className="text-muted-foreground">Pending</span>
+              <span className="font-semibold text-primary">KSh {pendingEarnings.toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -147,6 +166,16 @@ const Sidebar = () => {
             "w-full justify-start gap-3 text-muted-foreground hover:text-foreground",
             isCollapsed && "justify-center px-0"
           )}
+          onClick={async () => {
+            // Only clear auth-related data, preserve survey data
+            localStorage.removeItem('sb-refresh-token');
+            localStorage.removeItem('sb-access-token');
+            localStorage.removeItem('supabase.auth.token');
+            
+            // Sign out from Supabase
+            await supabase.auth.signOut();
+            window.location.href = "/login";
+          }}
         >
           <LogOut className="h-4 w-4" />
           {!isCollapsed && <span>Logout</span>}
