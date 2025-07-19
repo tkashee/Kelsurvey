@@ -14,6 +14,7 @@ import ReferralsPage from "./pages/ReferralsPage";
 import SettingsPage from "./pages/SettingsPage";
 import EarningsPage from "./pages/EarningsPage";
 import SurveysPage from "./pages/SurveysPage";
+import TermsPage from "./pages/TermsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/terms" element={<TermsPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/plans" element={<PlansPage />} />
           <Route path="/referrals" element={<ReferralsPage />} />
