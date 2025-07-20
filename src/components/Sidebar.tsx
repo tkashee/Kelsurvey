@@ -84,15 +84,15 @@ const Sidebar = () => {
 
   return (
     <div className={cn(
-      "bg-card border-r border-border transition-all duration-300 flex flex-col",
+      "sidebar-enhanced border-r transition-all duration-300 flex flex-col",
       isCollapsed ? "w-16" : "w-64"
     )}>
       {/* Header */}
-      <div className="p-4 border-b border-border">
+      <div className="sidebar-logo p-4">
         <div className="flex items-center justify-between">
           {!isCollapsed && (
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+              <div className="sidebar-logo-icon w-8 h-8 rounded-lg flex items-center justify-center">
                 <Star className="h-4 w-4 text-white" />
               </div>
               <span className="font-bold bg-gradient-primary bg-clip-text text-transparent">
@@ -104,7 +104,7 @@ const Sidebar = () => {
             variant="ghost"
             size="sm"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hover:bg-muted"
+            className="hover:bg-transparent"
           >
             {isCollapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
           </Button>
@@ -113,9 +113,9 @@ const Sidebar = () => {
 
       {/* User Info */}
       {!isCollapsed && (
-        <div className="p-4 border-b border-border bg-gradient-secondary">
+        <div className="sidebar-user-info p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+            <div className="sidebar-avatar w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold">
               {userName.substring(0, 2).toUpperCase()}
             </div>
             <div className="flex-1">
@@ -123,7 +123,7 @@ const Sidebar = () => {
               <p className="text-xs text-muted-foreground">{currentPlan} Plan</p>
             </div>
           </div>
-          <div className="mt-3 p-2 bg-card/50 rounded-lg">
+          <div className="sidebar-earnings mt-3 p-2 rounded-lg">
             <div className="flex justify-between items-center text-xs">
               <span className="text-muted-foreground">Pending</span>
               <span className="font-semibold text-primary">KSh {pendingEarnings.toLocaleString()}</span>
@@ -138,10 +138,10 @@ const Sidebar = () => {
           {menuItems.map((item, index) => (
             <li key={index}>
               <Button
-                variant={item.active ? "default" : "ghost"}
+                variant="ghost"
                 className={cn(
-                  "w-full justify-start gap-3 h-10",
-                  item.active && "bg-gradient-primary text-white shadow-soft",
+                  "sidebar-nav-button w-full justify-start gap-3 h-10",
+                  item.active && "sidebar-nav-button active",
                   isCollapsed && "justify-center px-0"
                 )}
                 onClick={() => window.location.href = item.href}
@@ -151,7 +151,7 @@ const Sidebar = () => {
                   <>
                     <span className="flex-1 text-left">{item.title}</span>
                     {item.badge && (
-                      <Badge variant="secondary" className="text-xs">
+                      <Badge variant="secondary" className="sidebar-badge text-xs">
                         {item.badge}
                       </Badge>
                     )}
@@ -164,11 +164,11 @@ const Sidebar = () => {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-border">
+      <div className="sidebar-logout p-4">
         <Button
           variant="ghost"
           className={cn(
-            "w-full justify-start gap-3 text-muted-foreground hover:text-foreground",
+            "sidebar-logout-button w-full justify-start gap-3 text-muted-foreground",
             isCollapsed && "justify-center px-0"
           )}
           onClick={async () => {
