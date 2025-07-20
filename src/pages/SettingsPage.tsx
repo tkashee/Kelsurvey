@@ -78,7 +78,7 @@ const SettingsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex min-h-screen w-full bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-100 dark:from-purple-900/20 dark:via-pink-900/20 dark:to-indigo-900/30">
+    <div className="min-h-screen flex min-h-screen w-full bg-settings">
       <div className="flex-1 p-6 lg:p-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">

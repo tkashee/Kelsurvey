@@ -11,23 +11,23 @@ const EarningsPage = () => {
   const userProgress = surveyData.userProgress;
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex min-h-screen w-full bg-earnings">
       <Sidebar />
       
       <main className="flex-1 p-6 lg:p-8">
-        <h1 className="text-3xl font-bold mb-6">My Earnings</h1>
+        <h1 className="text-3xl font-bold mb-6 bg-gradient-text bg-clip-text text-transparent">My Earnings</h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Earnings Overview */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="earnings-card">
               <CardHeader>
-                <CardTitle>Total Earnings</CardTitle>
-                <CardDescription>Your total earnings from surveys</CardDescription>
+                <CardTitle className="text-2xl font-bold text-foreground">Total Earnings</CardTitle>
+                <CardDescription className="text-base text-foreground/80">Your total earnings from surveys</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">KSh {userProgress.totalEarnings.toLocaleString()}</p>
-                <p className="text-sm text-muted-foreground mt-2">
+                <p className="text-3xl font-bold text-primary">KSh {userProgress.totalEarnings.toLocaleString()}</p>
+                <p className="text-base text-foreground/70 mt-2">
                   Pending Earnings: KSh {userProgress.pendingEarnings.toLocaleString()}
                 </p>
               </CardContent>

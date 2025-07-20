@@ -112,7 +112,7 @@ const SurveysPage = () => {
   }
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex min-h-screen w-full bg-survey">
       <Sidebar />
       
       <main className="flex-1 p-6 lg:p-8">

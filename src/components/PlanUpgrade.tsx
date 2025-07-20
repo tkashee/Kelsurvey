@@ -31,11 +31,11 @@ const PlanUpgrade = () => {
 
   const getPlanColor = (planName: string) => {
     switch (planName) {
-      case "Starter": return "border-blue-200 bg-blue-50/50";
-      case "Silver": return "border-gray-300 bg-gray-50/50";
-      case "Gold": return "border-yellow-300 bg-yellow-50/50";
-      case "Platinum": return "border-purple-300 bg-purple-50/50";
-      default: return "border-border bg-background";
+      case "Starter": return "border-blue-200 bg-gradient-to-br from-blue-50/80 to-cyan-50/80 hover:from-blue-100/90 hover:to-cyan-100/90";
+      case "Silver": return "border-gray-300 bg-gradient-to-br from-gray-50/80 to-slate-50/80 hover:from-gray-100/90 hover:to-slate-100/90";
+      case "Gold": return "border-yellow-300 bg-gradient-to-br from-yellow-50/80 to-orange-50/80 hover:from-yellow-100/90 hover:to-orange-100/90";
+      case "Platinum": return "border-purple-300 bg-gradient-to-br from-purple-50/80 to-pink-50/80 hover:from-purple-100/90 hover:to-pink-100/90";
+      default: return "border-border bg-gradient-to-br from-background to-muted/50";
     }
   };
 
@@ -55,7 +55,7 @@ const PlanUpgrade = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
       <div className="text-center">
         <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
           Choose Your Survey Plan
@@ -69,9 +69,9 @@ const PlanUpgrade = () => {
         {planData.surveyPlans.map((plan) => (
           <Card 
             key={plan.planName} 
-            className={`relative transition-all duration-300 hover:shadow-glow ${
+            className={`relative transition-all duration-300 hover:shadow-glow hover:scale-105 ${
               currentPlan === plan.planName 
-                ? 'ring-2 ring-primary shadow-glow' 
+                ? 'ring-2 ring-primary shadow-glow bg-gradient-to-br from-primary/10 via-blue-100/50 to-purple-100/50' 
                 : getPlanColor(plan.planName)
             }`}
           >

@@ -177,7 +177,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex min-h-screen w-full bg-dashboard">
       <Sidebar />
       
       <main className="flex-1 p-6 lg:p-8">

@@ -149,29 +149,29 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
   const canWithdraw = availableBalance >= minimumWithdrawal;
 
   return (
-    <Card className={`shadow-soft hover:shadow-glow transition-all duration-300 ${className}`}>
+    <Card className={`earnings-card ${className}`}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-2xl font-bold text-foreground">
           <DollarSign className="h-5 w-5 text-primary" />
           Withdraw Earnings
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-base text-foreground/80">
           Withdraw your earnings directly to your MPESA account
         </CardDescription>
       </CardHeader>
       
       <CardContent className="space-y-4">
         {/* Balance Display */}
-        <div className="bg-muted/50 p-4 rounded-lg">
+        <div className="bg-gradient-secondary/50 p-4 rounded-lg border border-border/50">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Available Balance</span>
-            <span className="text-2xl font-bold text-primary">
+            <span className="text-base font-medium text-foreground">Available Balance</span>
+            <span className="text-3xl font-bold text-primary">
               KSh {availableBalance.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between items-center mt-2">
-            <span className="text-sm text-muted-foreground">Minimum Withdrawal</span>
-            <span className="text-sm font-medium">
+            <span className="text-sm text-foreground/70">Minimum Withdrawal</span>
+            <span className="text-sm font-semibold text-foreground">
               KSh {minimumWithdrawal.toLocaleString()}
             </span>
           </div>
