@@ -54,7 +54,7 @@ const Dashboard = () => {
     return (
       <div className="flex min-h-screen w-full bg-background">
         <Sidebar />
-        <main className="flex-1 p-6 lg:p-8">
+        <main className="flex-1 p-6 lg:p-8 ml-[240px]">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
@@ -70,7 +70,7 @@ const Dashboard = () => {
     return (
       <div className="flex min-h-screen w-full bg-background">
         <Sidebar />
-        <main className="flex-1 p-6 lg:p-8">
+        <main className="flex-1 p-6 lg:p-8 ml-[240px]">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="bg-red-100 p-4 rounded-lg">

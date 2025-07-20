@@ -115,7 +115,7 @@ const SurveysPage = () => {
     <div className="flex min-h-screen w-full bg-survey">
       <Sidebar />
       
-      <main className="flex-1 p-6 lg:p-8">
+      <main className="flex-1 p-6 lg:p-8 ml-[240px]">
         <h1 className="text-3xl font-bold mb-6">Available Surveys</h1>
         {availableSurveys.length === 0 ? (
           <p className="text-muted-foreground">

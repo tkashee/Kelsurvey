@@ -28,11 +28,11 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
   const availableBalance = userProgress.pendingEarnings;
   const minimumWithdrawal = currentPlan?.minimumWithdrawal || 4500;
 
-  const handleWithdrawal = async () => {
+    const handleWithdrawal = async () => {
     if (!mpesaNumber.trim()) {
       toast({
-        title: "Error",
-        description: "Please enter your MPESA number",
+        title: "MPESA Number Required",
+        description: "Please enter your MPESA number to proceed with withdrawal",
         variant: "destructive",
       });
       return;
@@ -40,8 +40,8 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
 
     if (!withdrawalAmount || parseFloat(withdrawalAmount) <= 0) {
       toast({
-        title: "Error",
-        description: "Please enter a valid withdrawal amount",
+        title: "Invalid Amount",
+        description: "Please enter a valid withdrawal amount greater than zero",
         variant: "destructive",
       });
       return;
@@ -49,8 +49,8 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
 
     if (parseFloat(withdrawalAmount) > availableBalance) {
       toast({
-        title: "Error",
-        description: "Insufficient balance for withdrawal",
+        title: "Insufficient Balance",
+        description: `You only have KSh ${availableBalance.toLocaleString()} available for withdrawal`,
         variant: "destructive",
       });
       return;
@@ -58,8 +58,8 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
 
     if (parseFloat(withdrawalAmount) < minimumWithdrawal) {
       toast({
-        title: "Error",
-        description: `Minimum withdrawal is KSh ${minimumWithdrawal.toLocaleString()}`,
+        title: "Amount Below Minimum",
+        description: `Your current plan requires a minimum of KSh ${minimumWithdrawal.toLocaleString()} to withdraw. You need KSh ${(minimumWithdrawal - parseFloat(withdrawalAmount)).toLocaleString()} more.`,
         variant: "destructive",
       });
       return;
@@ -211,10 +211,20 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
               onChange={(e) => setMpesaNumber(formatMpesaNumber(e.target.value))}
               maxLength={13}
               disabled={!canWithdraw || isProcessing}
+              className="border-2 focus:border-primary"
             />
             <p className="text-xs text-muted-foreground mt-1">
               Enter your registered MPESA number
             </p>
+            {mpesaNumber && (
+              <p className="text-xs mt-1">
+                {mpesaNumber.length >= 10 ? (
+                  <span className="text-success">✓ Valid MPESA number format</span>
+                ) : (
+                  <span className="text-muted-foreground">Format: 2547XXXXXXXX or 07XXXXXXXX</span>
+                )}
+              </p>
+            )}
           </div>
 
           <div>
@@ -228,7 +238,23 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
               min={minimumWithdrawal}
               max={availableBalance}
               disabled={!canWithdraw || isProcessing}
+              className="border-2 focus:border-primary"
             />
+            <div className="flex justify-between text-xs mt-1">
+              <span className="text-muted-foreground">Min: KSh {minimumWithdrawal.toLocaleString()}</span>
+              <span className="text-muted-foreground">Max: KSh {availableBalance.toLocaleString()}</span>
+            </div>
+            {withdrawalAmount && (
+              <p className="text-xs mt-1">
+                {parseFloat(withdrawalAmount) >= minimumWithdrawal && parseFloat(withdrawalAmount) <= availableBalance ? (
+                  <span className="text-success">✓ Valid withdrawal amount</span>
+                ) : parseFloat(withdrawalAmount) > availableBalance ? (
+                  <span className="text-destructive">Amount exceeds available balance</span>
+                ) : (
+                  <span className="text-muted-foreground">Amount below minimum withdrawal</span>
+                )}
+              </p>
+            )}
           </div>
 
           <Button 

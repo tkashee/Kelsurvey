@@ -1,6 +1,6 @@
 @import './styles/global-backgrounds-fixed.css';
 @import './styles/earnings-background.css';
-@import './styles/sidebar-enhanced.css';
+@import './styles/sidebar-enhanced-complete.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
