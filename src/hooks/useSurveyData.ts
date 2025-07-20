@@ -87,89 +87,24 @@ export const useSurveyData = () => {
     fetchUser();
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [planResponse, surveyResponse] = await Promise.all([
-          fetch('/data/plan.json'),
-          fetch('/data/survey.json')
-        ]);
+  // Define fetchData outside useEffect to make it accessible
+  const fetchData = async () => {
+    try {
+      const [planResponse, surveyResponse] = await Promise.all([
+        fetch('/data/plan.json'),
+        fetch('/data/survey.json')
+      ]);
 
-        if (!planResponse.ok || !surveyResponse.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        
-        const planData = await planResponse.json();
-        let surveyData;
+      if (!planResponse.ok || !surveyResponse.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      
+      const planData = await planResponse.json();
+      let surveyData;
 
-        // Use fallback data for demo purposes when no user is logged in
-        if (!userId) {
-          surveyData = await surveyResponse.json();
-          surveyData.userProgress = {
-            currentPlan: "Starter",
-            surveysCompletedToday: 0,
-            totalEarnings: 0,
-            pendingEarnings: 0,
-            completedSurveys: [],
-            referrals: {
-              totalReferrals: 0,
-              referralEarnings: 0,
-              referralCode: "REF_DEMO123"
-            }
-          };
-        } else {
-          // Load user-specific surveyData from localStorage if available
-          const storageKey = `surveyData_${userId}`;
-          const storedSurveyData = localStorage.getItem(storageKey);
-          
-          if (storedSurveyData) {
-            surveyData = JSON.parse(storedSurveyData);
-          } else {
-            surveyData = await surveyResponse.json();
-            // Initialize with default user progress if none exists
-            if (!surveyData.userProgress) {
-              surveyData.userProgress = {
-                currentPlan: "Starter",
-                surveysCompletedToday: 0,
-                totalEarnings: 0,
-                pendingEarnings: 0,
-                completedSurveys: [],
-                referrals: {
-                  totalReferrals: 0,
-                  referralEarnings: 0,
-                  referralCode: `REF_${Math.random().toString(36).substring(2, 8)}`
-                }
-              };
-              localStorage.setItem(storageKey, JSON.stringify(surveyData));
-            }
-          }
-        }
-        
-        setPlanData(planData);
-        setSurveyData(surveyData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        // Provide fallback data if fetch fails
-        setPlanData({
-          visibility: true,
-          surveyPlans: [{
-            planName: "Starter",
-            dailySurvey: 1,
-            monthlyIncome: 0,
-            dailyIncome: 0,
-            minimumWithdrawal: 4500,
-            earningPerSurvey: "40 - 50",
-            price: "0"
-          }],
-          mpesaPaymentDetails: {
-            tillName: "FINTECH HUB VENTURES 3",
-            tillNumber: 8071464
-          },
-          moneyMaking: []
-        });
-        
-        const surveyResponse = await fetch('/data/survey.json');
-        const surveyData = await surveyResponse.json();
+      // Use fallback data for demo purposes when no user is logged in
+      if (!userId) {
+        surveyData = await surveyResponse.json();
         surveyData.userProgress = {
           currentPlan: "Starter",
           surveysCompletedToday: 0,
@@ -182,13 +117,109 @@ export const useSurveyData = () => {
             referralCode: "REF_DEMO123"
           }
         };
-        setSurveyData(surveyData);
-      } finally {
-        setLoading(false);
+      } else {
+        // Load user-specific surveyData from localStorage if available
+        const storageKey = `surveyData_${userId}`;
+        const storedSurveyData = localStorage.getItem(storageKey);
+        
+        if (storedSurveyData) {
+          surveyData = JSON.parse(storedSurveyData);
+        } else {
+          surveyData = await surveyResponse.json();
+          // Initialize with default user progress if none exists
+          if (!surveyData.userProgress) {
+            surveyData.userProgress = {
+              currentPlan: "Starter",
+              surveysCompletedToday: 0,
+              totalEarnings: 0,
+              pendingEarnings: 0,
+              completedSurveys: [],
+              referrals: {
+                totalReferrals: 0,
+                referralEarnings: 0,
+                referralCode: `REF_${Math.random().toString(36).substring(2, 8)}`
+              }
+            };
+            localStorage.setItem(storageKey, JSON.stringify(surveyData));
+          }
+        }
+      }
+      
+      setPlanData(planData);
+      setSurveyData(surveyData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Provide fallback data if fetch fails
+      setPlanData({
+        visibility: true,
+        surveyPlans: [{
+          planName: "Starter",
+          dailySurvey: 1,
+          monthlyIncome: 0,
+          dailyIncome: 0,
+          minimumWithdrawal: 4500,
+          earningPerSurvey: "40 - 50",
+          price: "0"
+        }],
+        mpesaPaymentDetails: {
+          tillName: "FINTECH HUB VENTURES 3",
+          tillNumber: 8071464
+        },
+        moneyMaking: []
+      });
+      
+      const surveyResponse = await fetch('/data/survey.json');
+      const surveyData = await surveyResponse.json();
+      surveyData.userProgress = {
+        currentPlan: "Starter",
+        surveysCompletedToday: 0,
+        totalEarnings: 0,
+        pendingEarnings: 0,
+        completedSurveys: [],
+        referrals: {
+          totalReferrals: 0,
+          referralEarnings: 0,
+          referralCode: "REF_DEMO123"
+        }
+      };
+      setSurveyData(surveyData);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [userId]);
+
+  // Handle page visibility changes (tab switching)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        // Page became visible again - refresh data
+        fetchData();
       }
     };
 
-    fetchData();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [userId]);
+
+  // Handle window focus (tab switching)
+  useEffect(() => {
+    const handleFocus = () => {
+      // Refresh data when window regains focus
+      fetchData();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
   }, [userId]);
 
 
