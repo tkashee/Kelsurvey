@@ -22,7 +22,8 @@
             "2-3 times per month",
             "Rarely"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -35,7 +36,8 @@
             "Bank Transfer",
             "Cash on Delivery"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
@@ -48,7 +50,8 @@
             "Shipping Speed",
             "Return Policy"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -74,7 +77,8 @@
             "5-8 hours",
             "More than 8 hours"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -88,7 +92,8 @@
             "LinkedIn",
             "WhatsApp"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
@@ -101,7 +106,8 @@
             "Tablet",
             "Smart TV"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -127,7 +133,8 @@
             "5-6 times",
             "Daily"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -141,7 +148,8 @@
             "American",
             "Mexican"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -167,7 +175,8 @@
             "Rarely",
             "Never"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -182,7 +191,8 @@
             "Other",
             "None"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
@@ -195,7 +205,8 @@
             "Somewhat decreased",
             "Significantly decreased"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q4",
@@ -208,22 +219,8 @@
             "Over-reliance on technology",
             "No concerns"
           ],
-          "correctAnswer": null
-        },
-        {
-          "id": "q5",
-          "question": "Which website or platform do you use most for tech news and updates?",
-          "type": "multiple_choice",
-          "options": [
-            "TechCrunch",
-            "The Verge",
-            "Wired",
-            "Reddit",
-            "Twitter/X",
-            "YouTube",
-            "Other"
-          ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -249,7 +246,8 @@
             "50-100 times",
             "More than 100 times"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -262,7 +260,8 @@
             "Often",
             "Always"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
@@ -277,7 +276,8 @@
             "Twitter/X",
             "Other"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q4",
@@ -290,7 +290,8 @@
             "Moderately disrupted",
             "Severely disrupted"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -317,7 +318,8 @@
             "eBay",
             "Other local platforms"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -330,7 +332,8 @@
             "Brand recognition",
             "Price comparison"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
@@ -343,7 +346,8 @@
             "2-3 times per month",
             "Rarely/Never"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q4",
@@ -356,7 +360,8 @@
             "Return process",
             "Hidden charges"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -382,7 +387,8 @@
             "Occasionally",
             "Never"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -396,7 +402,8 @@
             "Discord",
             "WhatsApp"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
@@ -409,7 +416,8 @@
             "Somewhat decreased",
             "Significantly decreased"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q4",
@@ -422,7 +430,8 @@
             "Security concerns",
             "Work-life balance"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q5",
@@ -436,7 +445,93 @@
             "Canva AI for design",
             "None"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
+        }
+      ]
+    },
+    {
+      "id": "survey_7",
+      "title": "Workplace Technology & Remote Work",
+      "reward": 95,
+      "duration": "15 minutes",
+      "category": "Workplace",
+      "difficulty": "Medium",
+      "status": "available",
+      "description": "How technology has changed your work experience",
+      "requiredPlan": "Silver",
+      "questions": [
+        {
+          "id": "q1",
+          "question": "How often do you work remotely?",
+          "type": "multiple_choice",
+          "options": [
+            "Full-time remote",
+            "3-4 days per week",
+            "1-2 days per week",
+            "Occasionally",
+            "Never"
+          ],
+          "correctAnswer": null,
+          "isFree": true
+        },
+        {
+          "id": "q2",
+          "question": "Which collaboration tool do you prefer for remote work?",
+          "type": "multiple_choice",
+          "options": [
+            "Zoom",
+            "Microsoft Teams",
+            "Google Meet",
+            "Slack",
+            "Discord",
+            "WhatsApp"
+          ],
+          "correctAnswer": null,
+          "isFree": false
+        },
+        {
+          "id": "q3",
+          "question": "How has remote work affected your productivity?",
+          "type": "multiple_choice",
+          "options": [
+            "Significantly increased",
+            "Somewhat increased",
+            "No change",
+            "Somewhat decreased",
+            "Significantly decreased"
+          ],
+          "correctAnswer": null,
+          "isFree": false
+        },
+        {
+          "id": "q4",
+          "question": "What's your biggest challenge with remote work technology?",
+          "type": "multiple_choice",
+          "options": [
+            "Internet connectivity",
+            "Software complexity",
+            "Communication barriers",
+            "Security concerns",
+            "Work-life balance"
+          ],
+          "correctAnswer": null,
+          "isFree": false
+        },
+        {
+          "id": "q5",
+          "question": "Which AI tool has most improved your work efficiency?",
+          "type": "multiple_choice",
+          "options": [
+            "ChatGPT for writing",
+            "Grammarly for editing",
+            "Notion AI for organization",
+            "GitHub Copilot for coding",
+            "Canva AI for design",
+            "None"
+          ],
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -463,7 +558,8 @@
             "Bank mobile apps",
             "Other"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -476,7 +572,8 @@
             "Somewhat uncomfortable",
             "Very uncomfortable"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
@@ -489,7 +586,8 @@
             "Rewards/cashback",
             "No other option"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q4",
@@ -503,7 +601,8 @@
             "Family Bank App",
             "Other"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -530,7 +629,8 @@
             "Amazon Prime",
             "Other"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -543,20 +643,24 @@
             "20-30 hours",
             "More than 30 hours"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
-          "question": "What's your preferred device for streaming content?",
+          "question": "Which app do you spend the most time on daily?",
           "type": "multiple_choice",
           "options": [
-            "Smartphone",
-            "Smart TV",
-            "Laptop",
-            "Tablet",
-            "Desktop"
+            "WhatsApp",
+            "Facebook",
+            "Instagram",
+            "TikTok",
+            "YouTube",
+            "Twitter/X",
+            "Other"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     },
@@ -582,7 +686,8 @@
             "Never used",
             "Planning to start"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": true
         },
         {
           "id": "q2",
@@ -596,7 +701,8 @@
             "Strava",
             "Other"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q3",
@@ -609,7 +715,8 @@
             "Made it more complicated",
             "Don't use health tech"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         },
         {
           "id": "q4",
@@ -622,7 +729,8 @@
             "Sleep improvement",
             "Medical condition management"
           ],
-          "correctAnswer": null
+          "correctAnswer": null,
+          "isFree": false
         }
       ]
     }

@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabaseClient";
 import { useSurveyData } from "@/hooks/useSurveyData";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -36,44 +37,48 @@ const Sidebar = () => {
   const currentPlan = surveyData?.userProgress?.currentPlan || 'Starter';
   const pendingEarnings = surveyData?.userProgress?.pendingEarnings || 0;
   
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentPath = location.pathname;
+
   const menuItems = [
     {
       title: "Dashboard",
       icon: LayoutDashboard,
       href: "/dashboard",
-      active: window.location.pathname === "/dashboard"
+      active: currentPath === "/dashboard"
     },
     {
       title: "Plans",
       icon: Star,
       href: "/plans",
-      active: window.location.pathname === "/plans"
+      active: currentPath === "/plans"
     },
     {
       title: "Available Surveys",
       icon: FileText,
       href: "/surveys",
       badge: "12",
-      active: window.location.pathname === "/surveys"
+      active: currentPath === "/surveys"
     },
     {
       title: "My Earnings",
       icon: DollarSign,
       href: "/earnings",
-      active: window.location.pathname === "/earnings"
+      active: currentPath === "/earnings"
     },
     {
       title: "Referrals",
       icon: Users,
       href: "/referrals",
       badge: "3",
-      active: window.location.pathname === "/referrals"
+      active: currentPath === "/referrals"
     },
     {
       title: "Settings",
       icon: Settings,
       href: "/settings",
-      active: window.location.pathname === "/settings"
+      active: currentPath === "/settings"
     }
   ];
 

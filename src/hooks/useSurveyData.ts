@@ -201,19 +201,10 @@ export const useSurveyData = () => {
 
 
   const getAvailableSurveys = () => {
-    if (!surveyData || !planData) return [];
+    if (!surveyData) return [];
     
-    const currentPlan = getCurrentPlan();
-    if (!currentPlan) return [];
-
-    const planHierarchy = ['Starter', 'Silver', 'Gold', 'Platinum'];
-    const currentPlanIndex = planHierarchy.indexOf(currentPlan.planName);
-    
-    // Return all surveys that user is eligible for regardless of daily limit
-    return surveyData.surveys.filter(survey => {
-      const requiredPlanIndex = planHierarchy.indexOf(survey.requiredPlan);
-      return requiredPlanIndex <= currentPlanIndex;
-    });
+    // Return all surveys regardless of plan restrictions
+    return surveyData.surveys;
   };
 
 
