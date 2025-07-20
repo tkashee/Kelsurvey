@@ -15,8 +15,8 @@ const FAQSection: React.FC = () => {
       answer: "We offer multiple payment options including M-Pesa, bank transfer, and PayPal. Payments are processed within 24-48 hours of withdrawal request."
     },
     {
-      question: "Is SurveyEarn free to join?",
-      answer: "Yes! SurveyEarn is completely free to join. There are no hidden fees or charges."
+      question: "Is SurveyDash free to join?",
+      answer: "Yes! SurveyDash is completely free to join. There are no hidden fees or charges."
     },
     {
       question: "How often will I receive surveys?",
@@ -24,7 +24,7 @@ const FAQSection: React.FC = () => {
     },
     {
       question: "What are the minimum withdrawal requirements?",
-      answer: "The minimum withdrawal amount is KSh 500. You can withdraw anytime once you reach this threshold."
+      answer: "The minimum withdrawal amount is KSh 4500. You can withdraw anytime once you reach this threshold."
     },
     {
       question: "Is my personal information safe?",
@@ -41,7 +41,7 @@ const FAQSection: React.FC = () => {
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-          <p className="text-xl text-muted-foreground">Everything you need to know about SurveyEarn</p>
+          <p className="text-xl text-muted-foreground">Everything you need to know about SurveyDash</p>
         </div>
 
         <div className="max-w-3xl mx-auto">

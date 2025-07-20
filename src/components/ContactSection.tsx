@@ -25,7 +25,7 @@ const ContactSection: React.FC = () => {
               <CardTitle className="text-2xl text-blue-700">Email Us</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 mb-4 text-lg">support@surveyearn.co.ke</p>
+              <p className="text-gray-600 mb-4 text-lg">support@surveyDash.co.ke</p>
               <Button 
                 variant="outline" 
                 size="lg" 
@@ -45,7 +45,7 @@ const ContactSection: React.FC = () => {
               <CardTitle className="text-2xl text-purple-700">Call Us</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 mb-4 text-lg">+254 700 123 456</p>
+              <p className="text-gray-600 mb-4 text-lg">+254 700 323 456</p>
               <Button 
                 variant="outline" 
                 size="lg" 

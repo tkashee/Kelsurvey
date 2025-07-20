@@ -91,7 +91,7 @@ const Sidebar = () => {
                 <Star className="h-4 w-4 text-white" />
               </div>
               <span className="font-bold bg-gradient-primary bg-clip-text text-transparent">
-                SurveyEarn
+                SurveyDash
               </span>
             </div>
           )}

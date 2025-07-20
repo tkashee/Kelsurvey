@@ -1,4 +1,4 @@
-🎉 Welcome to SurveyEarn - Your Voice Matters!
+🎉 Welcome to SurveyDash - Your Voice Matters!
 
 Dear {{user_name}},
 
@@ -30,10 +30,9 @@ Once confirmed, you'll gain immediate access to:
 🔒 SECURITY NOTICE:
 If you didn't create this account or weren't expecting this email, please feel free to ignore it. No account will be activated, and your email address won't be used for any other purpose.
 
-We're genuinely excited to have you on board and can't wait to see the amazing insights you'll share with us. Welcome to the SurveyEarn family!
+We're genuinely excited to have you on board and can't wait to see the amazing insights you'll share with us. Welcome to the SurveyDash family!
 
 With gratitude and excitement,
-The SurveyEarn Team
 
 Need help? Contact us at support@surveyearn.com
 

@@ -8,7 +8,7 @@ const TestimonialsSection: React.FC = () => {
       name: "Sarah M.",
       location: "Nairobi",
       rating: 5,
-      text: "SurveyEarn has been a game-changer for me. I make extra money during my free time and the payouts are always on time!",
+      text: "SurveyDash has been a game-changer for me. I make extra money during my free time and the payouts are always on time!",
       avatar: "SM"
     },
     {
@@ -29,7 +29,7 @@ const TestimonialsSection: React.FC = () => {
       name: "Michael T.",
       location: "Nakuru",
       rating: 5,
-      text: "Been using SurveyEarn for 6 months now. Consistent surveys and reliable payments. Best survey platform in Kenya!",
+      text: "Been using SurveyDash for 6 months now. Consistent surveys and reliable payments. Best survey platform in Kenya!",
       avatar: "MT"
     }
   ];

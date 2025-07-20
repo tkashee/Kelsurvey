@@ -1,13 +1,13 @@
 # Email Templates
 
-This directory contains email templates for SurveyEarn. These templates are designed to be used with Supabase Auth.
+This directory contains email templates for SurveyDash. These templates are designed to be used with Supabase Auth.
 
 ## Welcome Email Template
 
 The welcome email has been enhanced with the following features:
 
 ### HTML Version (`welcome-email.html`)
-- Professional HTML email with SurveyEarn branding
+- Professional HTML email with SurveyDash branding
 - Responsive design with gradient header and modern styling
 - Warm, welcoming tone with emphasis on community and impact
 - Clear explanation of survey benefits and user value

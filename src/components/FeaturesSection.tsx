@@ -40,7 +40,7 @@ const FeaturesSection: React.FC = () => {
     <section id="features" className="py-20 px-4">
       <div className="container mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">What makes SurveyEarn stand out</h2>
+          <h2 className="text-4xl font-bold mb-4">What makes SurveyDash stand out</h2>
           <p className="text-xl text-muted-foreground">Features that set us apart from the competition</p>
         </div>
 
