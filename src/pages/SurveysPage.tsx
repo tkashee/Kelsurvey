@@ -106,6 +106,8 @@ const SurveysPage = () => {
         questions={surveyQuestions}
         surveyId={activeSurvey}
         reward={survey?.reward || 0}
+        title={survey?.title || "Survey"}
+        duration={survey?.duration || "5 minutes"}
         onComplete={handleSurveyComplete}
         onCancel={handleSurveyCancel}
       />
@@ -113,10 +115,11 @@ const SurveysPage = () => {
   }
 
   return (
-    <div className="flex min-h-screen w-full bg-survey">
+    <div className="min-h-screen w-full bg-survey">
+      <Header />
       <Sidebar />
       
-      <main className="flex-1 p-6 lg:p-8 ml-[240px]">
+      <main className="flex-1 p-6 lg:p-8 ml-[240px] mt-16">
         <h1 className="text-3xl font-bold mb-6">Available Surveys</h1>
         {availableSurveys.length === 0 ? (
           <p className="text-muted-foreground">
