@@ -92,10 +92,13 @@ const Sidebar = () => {
         <div className="flex items-center justify-between">
           {!isCollapsed && (
             <div className="flex items-center gap-2">
-              <div className="sidebar-logo-icon w-8 h-8 rounded-lg flex items-center justify-center">
-                <Star className="h-4 w-4 text-white" />
+              <div className="sidebar-logo-icon w-8 h-8 rounded-lg flex items-center justify-center bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-white">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
               </div>
-              <span className="font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <span className="font-bold bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text text-transparent">
                 SurveyDash
               </span>
             </div>

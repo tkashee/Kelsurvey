@@ -47,9 +47,15 @@ const ForgotPassword: React.FC = () => {
       <div className="max-w-md w-full space-y-8 relative z-10">
         <div className="text-center">
           <div className="flex justify-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">SE</span>
-            </div>
+            <Link to="/" className="flex items-center space-x-2">
+              <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 p-2 rounded-lg shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text text-transparent">SurveyDash</span>
+            </Link>
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Reset your password

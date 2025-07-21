@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserCircle, LogOut } from 'lucide-react';
+import { UserCircle, LogOut, DollarSign } from 'lucide-react';
 import { useSurveyData } from '@/hooks/useSurveyData';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +27,10 @@ const Header: React.FC = () => {
       <div className="flex items-center justify-between h-full px-6">
         {/* Logo/Title */}
         <div className="flex items-center">
-          <h1 className="text-xl font-bold text-white">SurveyDash</h1>
+          <div className="flex items-center space-x-2">
+            <DollarSign className="h-6 w-6 text-white" />
+            <h1 className="text-xl font-bold text-white">SurveyDash</h1>
+          </div>
         </div>
 
         {/* User Profile */}
@@ -35,9 +38,12 @@ const Header: React.FC = () => {
           <div className="text-right">
             <p className="text-sm font-medium text-white">{userName}</p>
             {surveyData && (
-              <p className="text-xs text-white/80">
-                KSh {surveyData.userProgress.pendingEarnings.toLocaleString()}
-              </p>
+              <div className="flex items-center gap-1">
+                <DollarSign className="h-3 w-3 text-white/80" />
+                <p className="text-xs text-white/80">
+                  KSh {surveyData.userProgress.pendingEarnings.toLocaleString()}
+                </p>
+              </div>
             )}
           </div>
           <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
