@@ -13,14 +13,14 @@ const TestimonialsSection: React.FC = () => {
     },
     {
       name: "John K.",
-      location: "Mombasa",
+      location: "kitale",
       rating: 5,
-      text: "The surveys are interesting and well-paying. I've been able to supplement my income significantly. Highly recommend!",
+      text: "I’ve tried many survey apps, but SurveyDash stands out. The more surveys I take, the more I earn. Plus, the withdrawal process is super smooth!",
       avatar: "JK"
     },
     {
       name: "Grace W.",
-      location: "Kisumu",
+      location: "Kirinyaga",
       rating: 5,
       text: "Easy to use platform with great customer support. The M-Pesa withdrawals are super convenient and fast!",
       avatar: "GW"
@@ -29,7 +29,7 @@ const TestimonialsSection: React.FC = () => {
       name: "Michael T.",
       location: "Nakuru",
       rating: 5,
-      text: "Been using SurveyDash for 6 months now. Consistent surveys and reliable payments. Best survey platform in Kenya!",
+      text: "Finally, a survey site that respects my time AND pays fairly. No scams, no delays—just real money sent straight to my mobile wallet. Highly recommend!",
       avatar: "MT"
     }
   ];

@@ -8,27 +8,27 @@ const FAQSection: React.FC = () => {
   const faqs = [
     {
       question: "How much can I earn per survey?",
-      answer: "You can earn between KSh 50 to KSh 300 per survey depending on the length and complexity. Premium surveys pay even more!"
+      answer: "Your earnings per survey depend on two factors:\n\nYour plan level (higher-tier plans offer higher-paying surveys).\n\nSurvey difficulty (harder surveys pay more than easier ones).\n\nUpgrade your plan to maximize your earnings!"
     },
     {
       question: "How do I get paid?",
-      answer: "We offer multiple payment options including M-Pesa, bank transfer, and PayPal. Payments are processed within 24-48 hours of withdrawal request."
+      answer: "We pay via mobile money, with M-Pesa as our preferred method. Once you reach the minimum withdrawal threshold, you can cash out your earnings directly to your mobile wallet."
     },
     {
       question: "Is SurveyDash free to join?",
-      answer: "Yes! SurveyDash is completely free to join. There are no hidden fees or charges."
+      answer: "Yes! Joining SurveyDash is completely free. However, upgrading your plan unlocks more surveys and higher earning potential."
     },
     {
       question: "How often will I receive surveys?",
-      answer: "The frequency depends on your profile and demographics. Most users receive 2-5 surveys per week."
+      answer: "The number of surveys you receive daily depends on your upgrade plan. Higher-tier plans get more survey opportunities."
     },
     {
       question: "What are the minimum withdrawal requirements?",
-      answer: "The minimum withdrawal amount is KSh 4500. You can withdraw anytime once you reach this threshold."
+      answer: "The minimum withdrawal amount depends on your plan level. Check your account dashboard for specific details on your withdrawal limit."
     },
     {
       question: "Is my personal information safe?",
-      answer: "Absolutely! We use bank-level security to protect your data and never share your personal information with third parties."
+      answer: "Absolutely! We only want your thoughts—not your private data. We do not collect or misuse sensitive personal information. Your responses are kept secure and anonymous."
     }
   ];
 
