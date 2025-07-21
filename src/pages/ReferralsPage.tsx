@@ -2,7 +2,9 @@ import { useSurveyData } from "@/hooks/useSurveyData";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
 
 const ReferralsPage = () => {
   const { surveyData } = useSurveyData();
@@ -22,9 +24,10 @@ const ReferralsPage = () => {
 
   return (
     <div className="flex min-h-screen w-full bg-referrals">
+      <Header />
       <Sidebar />
       
-      <main className="flex-1 p-6 lg:p-8 ml-[240px]">
+      <main className="flex-1 p-6 lg:p-8 ml-[240px] mt-16">
         <h1 className="text-3xl font-bold mb-6">Referrals</h1>
         <Card>
           <CardHeader>

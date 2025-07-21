@@ -20,6 +20,7 @@ import Sidebar from "./Sidebar";
 import { useSurveyData, Survey } from "@/hooks/useSurveyData";
 import SurveyQuestion from "./SurveyQuestion";
 import WithdrawalContainer from "./WithdrawalContainer";
+import ReferralCodeInput from "@/components/ReferralCodeInput";
 
 const Dashboard = () => {
   const [currentSurvey, setCurrentSurvey] = useState<Survey | null>(null);
@@ -221,6 +222,11 @@ const Dashboard = () => {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+
+            {/* Referral Code Section */}
+            <div className="mb-8">
+              <ReferralCodeInput />
             </div>
 
             {/* Rest of the dashboard content */}

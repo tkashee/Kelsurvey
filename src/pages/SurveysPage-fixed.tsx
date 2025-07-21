@@ -43,7 +43,7 @@ const SurveysPage = () => {
   const availableSurveys = getAvailableSurveys();
   const userProgress = surveyData.userProgress;
 
-    const handleStartSurvey = (surveyId: string) => {
+  const handleStartSurvey = (surveyId: string) => {
     if (!currentPlan) {
       toast({
         title: "No Plan Selected",
@@ -113,15 +113,16 @@ const SurveysPage = () => {
   }
 
   return (
-    <div className="flex min-h-screen w-full bg-survey">
+    <div className="min-h-screen w-full bg-survey">
+      <Header />
       <Sidebar />
       
-      <main className="flex-1 p-6 lg:p-8 ml-[240px]">
+      <main className="flex-1 p-6 lg:p-8 ml-[240px] mt-16">
         <h1 className="text-3xl font-bold mb-6">Available Surveys</h1>
         {availableSurveys.length === 0 ? (
           <p className="text-muted-foreground">
-            {userProgress.surveysCompletedToday >= (currentPlan?.dailySurvey || 0) 
-              ? "You've completed all surveys for today! Come back tomorrow." 
+            {userProgress.surveysCompletedToday >= (currentPlan?.dailySurvey || 0)
+              ? "You've completed all surveys for today! Come back tomorrow."
               : "No surveys available for your current plan. Consider upgrading!"}
           </p>
         ) : (

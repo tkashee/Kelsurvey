@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Phone, DollarSign, AlertCircle, CheckCircle } from 'lucide-react';
+import { Phone, DollarSign, AlertCircle, CheckCircle, Copy, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useSurveyData } from '@/hooks/useSurveyData';
 import { supabase } from '@/lib/supabaseClient';
@@ -15,7 +15,9 @@ interface WithdrawalContainerProps {
 }
 
 const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) => {
-  const [mpesaNumber, setMpesaNumber] = useState('');
+  const [mpesaNumber, setMpesaNumber] = useState(() => {
+    return localStorage.getItem('savedWithdrawalPhone') || '';
+  });
   const [withdrawalAmount, setWithdrawalAmount] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
@@ -57,9 +59,10 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
     }
 
     if (parseFloat(withdrawalAmount) < minimumWithdrawal) {
+      const neededAmount = minimumWithdrawal - parseFloat(withdrawalAmount);
       toast({
         title: "Amount Below Minimum",
-        description: `Your current plan requires a minimum of KSh ${minimumWithdrawal.toLocaleString()} to withdraw. You need KSh ${(minimumWithdrawal - parseFloat(withdrawalAmount)).toLocaleString()} more.`,
+        description: `Your current plan requires a minimum of KSh ${minimumWithdrawal.toLocaleString()} to withdraw. You need KSh ${neededAmount.toLocaleString()} more to reach the minimum.`,
         variant: "destructive",
       });
       return;
@@ -210,7 +213,7 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
               value={mpesaNumber}
               onChange={(e) => setMpesaNumber(formatMpesaNumber(e.target.value))}
               maxLength={13}
-              disabled={!canWithdraw || isProcessing}
+              disabled={isProcessing}
               className="border-2 focus:border-primary"
             />
             <p className="text-xs text-muted-foreground mt-1">
@@ -235,9 +238,9 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
               placeholder={`Min: KSh ${minimumWithdrawal.toLocaleString()}`}
               value={withdrawalAmount}
               onChange={(e) => setWithdrawalAmount(e.target.value)}
-              min={minimumWithdrawal}
+              min={0}
               max={availableBalance}
-              disabled={!canWithdraw || isProcessing}
+              disabled={isProcessing}
               className="border-2 focus:border-primary"
             />
             <div className="flex justify-between text-xs mt-1">
@@ -260,10 +263,19 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
           <Button 
             className="w-full bg-gradient-primary hover:opacity-90"
             onClick={handleWithdrawal}
-            disabled={!canWithdraw || isProcessing || !mpesaNumber || !withdrawalAmount}
+            disabled={isProcessing || !mpesaNumber || !withdrawalAmount}
           >
             {isProcessing ? "Processing..." : "Withdraw to MPESA"}
           </Button>
+        </div>
+
+        {/* Referral Code Section */}
+        <div className="border-t pt-4">
+          <h4 className="font-medium mb-2 flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            Your Referral Code
+          </h4>
+          <ReferralCodeSection referralCode={userProgress.referrals.referralCode} />
         </div>
 
         {/* Withdrawal History */}
@@ -273,6 +285,54 @@ const WithdrawalContainer: React.FC<WithdrawalContainerProps> = ({ className }) 
         </div>
       </CardContent>
     </Card>
+  );
+};
+
+// Helper component for referral code
+const ReferralCodeSection: React.FC<{ referralCode: string }> = ({ referralCode }) => {
+  const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(referralCode);
+      setCopied(true);
+      toast({
+        title: "Copied!",
+        description: "Referral code copied to clipboard",
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to copy referral code",
+        variant: "destructive",
+      });
+    }
+  };
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <Input
+          value={referralCode}
+          readOnly
+          className="bg-muted font-mono text-sm"
+        />
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={handleCopy}
+          className="flex items-center gap-1"
+        >
+          <Copy className="h-3 w-3" />
+          {copied ? "Copied!" : "Copy"}
+        </Button>
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Share this code with friends to earn referral bonuses!
+      </p>
+    </div>
   );
 };
 

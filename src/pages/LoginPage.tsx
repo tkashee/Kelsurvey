@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 
 const Login: React.FC = () => {
@@ -9,6 +9,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [showVerificationSuccess, setShowVerificationSuccess] = useState(false);
 
@@ -43,7 +44,9 @@ const Login: React.FC = () => {
         return;
       }
 
-      navigate('/dashboard');
+      // Redirect to the page the user was trying to access, or dashboard
+      const from = (location.state as any)?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
     } catch (err) {
       setError('Invalid email or password');
     } finally {

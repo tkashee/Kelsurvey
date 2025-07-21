@@ -3,6 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
@@ -17,33 +19,62 @@ import SurveysPage from "./pages/SurveysPage";
 import TermsPage from "./pages/TermsPage";
 import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
+import { SampleDataGenerator } from "./components/SampleDataGenerator";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/auth/callback" element={<AuthCallback />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/plans" element={<PlansPage />} />
-          <Route path="/referrals" element={<ReferralsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/earnings" element={<EarningsPage />} />
-          <Route path="/surveys" element={<SurveysPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <SampleDataGenerator>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/plans" element={
+                <ProtectedRoute>
+                  <PlansPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/referrals" element={
+                <ProtectedRoute>
+                  <ReferralsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/settings" element={
+                <ProtectedRoute>
+                  <SettingsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/earnings" element={
+                <ProtectedRoute>
+                  <EarningsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/surveys" element={
+                <ProtectedRoute>
+                  <SurveysPage />
+                </ProtectedRoute>
+              } />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </SampleDataGenerator>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

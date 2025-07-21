@@ -1,7 +1,10 @@
 import { useSurveyData } from "@/hooks/useSurveyData";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
 import WithdrawalContainer from "@/components/WithdrawalContainer";
+import SavedPhoneNumber from "@/components/SavedPhoneNumber";
+import SurveyEarningsChart from "@/components/SurveyEarningsChart";
 
 const EarningsPage = () => {
   const { surveyData } = useSurveyData();
@@ -11,15 +14,17 @@ const EarningsPage = () => {
   const userProgress = surveyData.userProgress;
 
   return (
-    <div className="flex min-h-screen w-full bg-earnings">
+    <div className="min-h-screen w-full bg-earnings">
+      <Header />
       <Sidebar />
       
-      <main className="flex-1 p-6 lg:p-8 ml-[240px]">
+      <main className="flex-1 p-6 lg:p-8 ml-[240px] mt-16">
         <h1 className="text-3xl font-bold mb-6 bg-gradient-text bg-clip-text text-transparent">My Earnings</h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Earnings Overview */}
-          <div className="lg:col-span-2">
+          {/* Left Column - Charts and Stats */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Earnings Overview */}
             <Card className="earnings-card">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-foreground">Total Earnings</CardTitle>
@@ -32,10 +37,17 @@ const EarningsPage = () => {
                 </p>
               </CardContent>
             </Card>
+
+            {/* Survey Performance Chart */}
+            <SurveyEarningsChart />
           </div>
 
-          {/* Withdrawal Container */}
-          <div>
+          {/* Right Column - Withdrawal and Phone */}
+          <div className="space-y-6">
+            {/* Saved Phone Number */}
+            <SavedPhoneNumber />
+            
+            {/* Withdrawal Container */}
             <WithdrawalContainer />
           </div>
         </div>

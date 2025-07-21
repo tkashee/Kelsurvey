@@ -20,6 +20,7 @@ import Sidebar from "./Sidebar";
 import { useSurveyData, Survey } from "@/hooks/useSurveyData";
 import SurveyQuestion from "./SurveyQuestion";
 import WithdrawalContainer from "./WithdrawalContainer";
+import ReferralCodeInput from "@/components/ReferralCodeInput";
 
 const Dashboard = () => {
   const [currentSurvey, setCurrentSurvey] = useState<Survey | null>(null);
@@ -180,7 +181,7 @@ const Dashboard = () => {
     <div className="flex min-h-screen w-full bg-dashboard">
       <Sidebar />
       
-      <main className="flex-1 p-6 lg:p-8 ml-[240px]">
+      <main className="flex-1 p-6 lg:p-8 ml-[240px] mt-16">
         {currentSurvey ? (
           <SurveyQuestion
             questions={currentSurvey.questions || []}
@@ -221,6 +222,11 @@ const Dashboard = () => {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+
+            {/* Referral Code Section */}
+            <div className="mb-8">
+              <ReferralCodeInput />
             </div>
 
             {/* Rest of the dashboard content */}
